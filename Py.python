@@ -1,0 +1,53 @@
+import pygame
+import sys
+
+pygame.init()
+
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+
+WIDTH, HEIGHT = 800, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Bolas Multiplicadoras")
+
+class Ball(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = pygame.Surface((50, 50))
+        self.image.fill(RED)
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
+        self.clicked = False
+
+    def update(self):
+        if self.clicked:
+            self.rect.center = pygame.mouse.get_pos()
+
+all_sprites = pygame.sprite.Group()
+
+ball = Ball(WIDTH // 2, HEIGHT // 2)
+all_sprites.add(ball)
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:  # Verifica se o clique foi com o botão esquerdo
+                pos = pygame.mouse.get_pos()
+                new_ball = Ball(*pos)
+                all_sprites.add(new_ball)
+
+    all_sprites.update()
+
+    # Desenho na tela
+    screen.fill(WHITE)
+    all_sprites.draw(screen)
+    pygame.display.flip()
+
+    pygame.time.Clock().tick(30)
+
+pygame.quit()
+sys.exit()
