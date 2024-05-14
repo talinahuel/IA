@@ -1,0 +1,17 @@
+import re
+
+def responder_companheiros_de_viagem(pergunta):
+    return "Companheiros de Viagem é uma série de comédia que segue as aventuras de um grupo de amigos viajando juntos pelo mundo."
+
+def responder_pergunta(pergunta):
+    pergunta = pergunta.lower()  # Convertendo a pergunta para minúsculas para facilitar a correspondência
+
+    padrao = r'\b(companheiros\s+de\s+viagem)\b'
+    if re.search(padrao, pergunta):
+        return responder_companheiros_de_viagem(pergunta)
+    return "Desculpe, não entendi sua pergunta."
+
+while True:
+    pergunta = input("Faça uma pergunta sobre séries: ")
+    resposta = responder_pergunta(pergunta)
+    print(resposta)
